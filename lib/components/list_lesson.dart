@@ -10,8 +10,7 @@ class ListLesson extends StatefulWidget {
 
   const ListLesson(
       this.instructionText, this.answers, this.imagen, this.correct,
-      {required this.checkButton, Key? key})
-      : super(key: key);
+      {required this.checkButton, super.key});
 
   @override
   ListLessonState createState() => ListLessonState();

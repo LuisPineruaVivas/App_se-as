@@ -5,7 +5,7 @@ import 'package:flutter/scheduler.dart';
 
 class LoginScreen extends StatefulWidget {
   static String routeName = "/login";
-  const LoginScreen({Key? key});
+  const LoginScreen({super.key});
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -18,7 +18,7 @@ class _LoginScreenState extends State<LoginScreen> {
   void initState() {
     super.initState();
 
-    SchedulerBinding.instance!.addPostFrameCallback((timestamp) {
+    SchedulerBinding.instance.addPostFrameCallback((timestamp) {
       _con.init(context, refresh);
     });
   }
@@ -62,28 +62,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 Navigator.of(context).pop(); // Cerrar el diálogo
               },
               child: const Text("Enviar"),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  // Método para mostrar el diálogo de error
-  Future<void> _showErrorDialog(BuildContext context) async {
-    return showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text("Error"),
-          content: const Text(
-              "El correo que ingresó no existe. Por favor, regístrese con un correo válido."),
-          actions: [
-            ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).pop(); // Cerrar el diálogo
-              },
-              child: const Text("Aceptar"),
             ),
           ],
         );

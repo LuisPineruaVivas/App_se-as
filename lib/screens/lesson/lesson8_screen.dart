@@ -10,7 +10,7 @@ class Lesson8Screen extends StatefulWidget {
   static String routeName = "/lesson8_screen";
 
   static int answers = 0;
-  const Lesson8Screen({Key? key}) : super(key: key);
+  const Lesson8Screen({super.key});
   @override
   State<StatefulWidget> createState() {
     return Lesson8ScreenState();

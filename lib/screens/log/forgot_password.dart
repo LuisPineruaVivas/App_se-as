@@ -7,7 +7,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class ChangePasswordScreen extends StatefulWidget {
   static String routeName = "/forgot_password";
 
-  const ChangePasswordScreen({Key? key}) : super(key: key);
+  const ChangePasswordScreen({super.key});
   @override
   ChangePasswordScreenState createState() => ChangePasswordScreenState();
 }
@@ -54,11 +54,10 @@ class ChangePasswordScreenState extends State<ChangePasswordScreen> {
               const SizedBox(height: 30),
               ElevatedButton(
                 style: ButtonStyle(
-                  backgroundColor:
-                      MaterialStateProperty.all<Color>(Colors.white),
+                  backgroundColor: WidgetStateProperty.all<Color>(Colors.white),
                   foregroundColor:
-                      MaterialStateProperty.all<Color>(Colors.blueGrey),
-                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      WidgetStateProperty.all<Color>(Colors.blueGrey),
+                  shape: WidgetStateProperty.all<RoundedRectangleBorder>(
                     RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),

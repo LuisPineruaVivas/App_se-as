@@ -48,6 +48,8 @@ class SignUpController {
           nombre: nombre.text.trim(),
           correo: _auth.getUser()!.email!,
           contrasena: contrasena.text.trim(),
+          isProfessor: false,
+          acceptCalls: true,
         );
 
         await _student.create(student);

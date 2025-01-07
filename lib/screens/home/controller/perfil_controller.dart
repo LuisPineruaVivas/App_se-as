@@ -42,11 +42,12 @@ class PerfilController {
 
   void signOut() async {
     FirebaseAuth.instance.signOut();
-    Navigator.pushReplacement(
+    Navigator.pushAndRemoveUntil(
       context,
       MaterialPageRoute(
         builder: (context) => const WelcomeScreen(),
       ),
+      (route) => false,
     );
   }
 }

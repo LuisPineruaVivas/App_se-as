@@ -1,12 +1,14 @@
 buildscript {
-    ext.kotlin_version = '1.7.10'
+    ext.kotlin_version = '1.8.0'
     repositories {
         google()
         mavenCentral()
     }
 
     dependencies {
+        classpath 'com.android.tools.build:gradle:7.3.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath 'com.google.gms:google-services:4.4.2'
     }
 }
 
@@ -14,6 +16,18 @@ allprojects {
     repositories {
         google()
         mavenCentral()
+    }
+}
+
+configurations.all {
+    resolutionStrategy.eachDependency { details ->
+        if (details.requested.group == 'com.google.firebase' && details.requested.name == 'firebase-messaging') {
+            details.useVersion '24.1.0'
+        }
+    }
+    resolutionStrategy {
+        force 'com.google.firebase:firebase-messaging:24.1.0'
+        exclude group: 'com.google.firebase', module: 'firebase-iid'
     }
 }
 

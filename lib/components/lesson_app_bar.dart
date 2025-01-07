@@ -3,7 +3,7 @@ import 'package:percent_indicator/linear_percent_indicator.dart';
 
 class LessonAppBar extends StatelessWidget implements PreferredSizeWidget {
   final double percent;
-  const LessonAppBar({required this.percent, Key? key}) : super(key: key);
+  const LessonAppBar({required this.percent, super.key});
 
   @override
   Size get preferredSize => const Size.fromHeight(60);

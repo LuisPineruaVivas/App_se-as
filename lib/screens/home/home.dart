@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables
 
+import 'package:first_app/screens/classroom/classroom_screen.dart';
 import 'package:first_app/screens/evaluations/evaluations.dart';
 import 'package:first_app/screens/levels/levels.dart';
 import 'package:first_app/screens/home/perfin.dart';
@@ -29,6 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
         destinations: <Widget>[
           navBarItem('images/level.png', 'images/level2.png', 'Lecciones'),
           navBarItem('images/book.png', 'images/book2.png', 'Evaluaciones'),
+          navBarItem('images/class.png', 'images/class2.png', 'Practicas'),
           navBarItem('images/person.png', 'images/person2.png', 'Perfil'),
         ],
       ),
@@ -37,6 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
         children: <Widget>[
           const LevelsScreen(),
           const EvaluationScreen(),
+          const ClassroomScreen(),
           const PerfilScreen()
         ],
       ),

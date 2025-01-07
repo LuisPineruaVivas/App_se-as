@@ -8,7 +8,7 @@ import '../home/home.dart';
 
 class SignUpScreen extends StatefulWidget {
   static String routeName = "/signup";
-  const SignUpScreen({Key? key}) : super(key: key);
+  const SignUpScreen({super.key});
   @override
   State<SignUpScreen> createState() => _SignUpScreenState();
 }
@@ -20,7 +20,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   void initState() {
     super.initState();
 
-    SchedulerBinding.instance!.addPostFrameCallback((timestamp) {
+    SchedulerBinding.instance.addPostFrameCallback((timestamp) {
       _con.init(context, refresh);
     });
   }

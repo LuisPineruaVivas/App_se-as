@@ -16,8 +16,7 @@ class VideoLesson extends StatefulWidget {
 
   const VideoLesson(this.images, this.names, this.info, this.leccion,
       this.titulo, this.tema, this.option,
-      {required this.checkButton, Key? key})
-      : super(key: key);
+      {required this.checkButton, super.key});
 
   @override
   State<VideoLesson> createState() => _VideoLessonState();

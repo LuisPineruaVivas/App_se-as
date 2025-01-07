@@ -9,12 +9,16 @@ class Student {
   final String nombre;
   final String correo;
   final String contrasena;
+  bool isProfessor = false;
+  bool acceptCalls = false;
 
   Student({
     this.id = '',
     required this.nombre,
     required this.correo,
     required this.contrasena,
+    required this.isProfessor,
+    required this.acceptCalls,
   });
 
   factory Student.fromJson(Map<String, dynamic> json) => Student(
@@ -22,6 +26,8 @@ class Student {
         nombre: json["nombre"],
         correo: json["correo"],
         contrasena: json["contrasena"],
+        isProfessor: json["isProfessor"],
+        acceptCalls: json["acceptCalls"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -29,5 +35,7 @@ class Student {
         "nombre": nombre,
         "correo": correo,
         "contrasena": contrasena,
+        "isProfessor": isProfessor,
+        "acceptCalls": acceptCalls
       };
 }

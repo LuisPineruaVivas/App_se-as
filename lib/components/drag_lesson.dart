@@ -12,8 +12,7 @@ class DragLesson extends StatefulWidget {
   List answer;
 
   DragLesson(this.imagen, this.words, this.answer,
-      {required this.checkButton, Key? key})
-      : super(key: key);
+      {required this.checkButton, super.key});
 
   @override
   DragLessonState createState() => DragLessonState();

@@ -12,8 +12,7 @@ class GridLesson extends StatefulWidget {
 
   const GridLesson(this.sign, this.imagen1, this.imagen2, this.imagen3,
       this.imagen4, this.correct,
-      {required this.checkButton, Key? key})
-      : super(key: key);
+      {required this.checkButton, super.key});
 
   @override
   GridLessonState createState() => GridLessonState();

@@ -11,7 +11,7 @@ import 'package:flutter/material.dart';
 class Lesson2Screen extends StatefulWidget {
   static String routeName = "/lesson2_screen";
 
-  const Lesson2Screen({Key? key}) : super(key: key);
+  const Lesson2Screen({super.key});
   @override
   State<StatefulWidget> createState() {
     return Lesson2ScreenState();

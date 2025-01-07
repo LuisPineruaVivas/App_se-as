@@ -20,7 +20,6 @@ class LessonItem extends StatelessWidget {
               itemCount: data.length,
               itemBuilder: (context, index) {
                 final tarea = data[index];
-                print(tarea);
                 return LessonWidget(
                   tarea['title'],
                   tarea['imagen'],
