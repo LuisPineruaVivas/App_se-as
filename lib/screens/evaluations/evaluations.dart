@@ -1,4 +1,5 @@
 import 'package:first_app/screens/evaluations/evaluation1_screen.dart';
+import 'package:first_app/screens/evaluations/evaluation2_screen.dart';
 import 'package:first_app/screens/evaluations/evaluation_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -31,8 +32,14 @@ class _EvaluationScreenState extends State<EvaluationScreen> {
                         builder: (context) => const Evaluation1Screen()));
               },
             ),
-            const EvaluationWidget(
-                'Evaluacion 2', 'El Abcdario', 'images/abc.png', false),
+            EvaluationWidget(
+                'Evaluación 2', 'Los Colores', 'images/colores.png', true,
+                onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const Evaluation2Screen()));
+            }),
             const EvaluationWidget(
                 'Evaluacion 3', 'Los Colores', 'images/colores.png', false),
             const EvaluationWidget(
