@@ -3,7 +3,7 @@ import 'package:first_app/components/sign_evaluation2.dart';
 import 'package:first_app/components/lesson_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart'; // Para obtener el UID del usuario
+import 'package:firebase_auth/firebase_auth.dart';
 
 class Evaluation2Screen extends StatefulWidget {
   static String routeName = "/evaluation2_screen";
