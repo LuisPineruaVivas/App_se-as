@@ -1,3 +1,4 @@
+import 'package:first_app/components/evaluation_item.dart';
 import 'package:first_app/components/lesson_item.dart';
 import 'package:first_app/screens/home/controller/perfil_controller.dart';
 import 'package:flutter/material.dart';
@@ -125,6 +126,7 @@ class _PerfilScreenState extends State<PerfilScreen> {
             ),
             const SizedBox(height: 20),
             const LessonItem(),
+            const EvaluationItem(),
           ],
         ),
       ),

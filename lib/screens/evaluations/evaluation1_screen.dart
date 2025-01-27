@@ -12,6 +12,7 @@ class Evaluation1Screen extends StatefulWidget {
   static String routeName = "/lesson_screen";
 
   const Evaluation1Screen({super.key});
+
   @override
   State<StatefulWidget> createState() {
     return Evaluation1ScreenState();
@@ -23,9 +24,16 @@ class Evaluation1ScreenState extends State<Evaluation1Screen> {
   int index = 0;
 
   @override
+  void initState() {
+    super.initState();
+    // Inicializamos respuestas en 0 cuando se inicie la evaluación.
+    resetEvaluation();
+  }
+
+  @override
   Widget build(BuildContext context) {
     var lessons = [
-      SignEvaluation('Realize la seña de la letra U',
+      SignEvaluation('Realice la seña de la letra U',
           const ['U', 'E', 'I', 'O'], 'images/u.png', 'U',
           checkButton: bottomButton(context, 'SIGUIENTE')),
       GridLesson(
@@ -114,7 +122,7 @@ class Evaluation1ScreenState extends State<Evaluation1Screen> {
                 showDialog(
                   context: context,
                   builder: (BuildContext context) {
-                    return dialog('Resultado $respuestas /10 ');
+                    return dialog('Resultado $respuestas /10');
                   },
                 );
               }
@@ -175,5 +183,14 @@ class Evaluation1ScreenState extends State<Evaluation1Screen> {
         ),
       ),
     );
+  }
+
+  // Método para reiniciar la evaluación cuando se empieza una nueva.
+  void resetEvaluation() {
+    setState(() {
+      percent = 0;
+      index = 0;
+      respuestas = 0; // Reinicio de respuestas al iniciar la evaluación
+    });
   }
 }

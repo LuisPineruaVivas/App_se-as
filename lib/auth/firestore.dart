@@ -56,6 +56,16 @@ class FirestoreDatasource {
             querySnapshot.docs.map((doc) => doc.data()).toList());
   }
 
+  static Stream<List<Map<String, dynamic>>> evaluations() {
+    return _firestore
+        .collection('users')
+        .doc(_auth.currentUser!.uid)
+        .collection('evaluation')
+        .snapshots()
+        .map((querySnapshot) =>
+            querySnapshot.docs.map((doc) => doc.data()).toList());
+  }
+
   //funcion obtener usuarios
   static Stream<List<Map<String, dynamic>>> users() {
     return _firestore.collection('users').snapshots().map((querySnapshot) =>
