@@ -169,7 +169,7 @@ class _PerfilScreenState extends State<PerfilScreen>
             heroTag: 'btn',
             backgroundColor: const Color.fromARGB(255, 91, 175, 243),
             onPressed: () async {
-              final pdfFile = await PdfApi.generateSimpleTextPdf();
+              final pdfFile = await PdfApi.generatePDF();
               SaveAndOpenDocument.openPdf(pdfFile);
             },
             child: const Icon(Icons.edit_document),

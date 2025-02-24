@@ -1,3 +1,4 @@
+import 'package:first_app/screens/home/home.dart';
 import 'package:flutter/material.dart';
 
 class BottomButton extends StatelessWidget {
@@ -15,7 +16,10 @@ class BottomButton extends StatelessWidget {
         child: ElevatedButton(
           onPressed: () {
             Navigator.pop(context);
-            Navigator.pop(context);
+            Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (context) => HomeScreen()),
+                (route) => false);
           },
           style: ElevatedButton.styleFrom(
             backgroundColor: const Color.fromARGB(255, 0, 105, 155),

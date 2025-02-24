@@ -15,19 +15,22 @@ class EvaluationItem extends StatelessWidget {
               return const Center(child: CircularProgressIndicator());
             }
             final List<Map<String, dynamic>> data = snapshot.data ?? [];
-            return ListView.builder(
-                physics: const NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                itemCount: data.length,
-                itemBuilder: (context, index) {
-                  final tarea = data[index];
-                  return EvaluationWidget(
-                    tarea['title'],
-                    tarea['imagen'],
-                    tarea['subtitle'],
-                    tarea['respuestas'],
-                  );
-                });
+            return Padding(
+              padding: const EdgeInsets.only(bottom: 50),
+              child: ListView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: data.length,
+                  itemBuilder: (context, index) {
+                    final tarea = data[index];
+                    return EvaluationWidget(
+                      tarea['title'],
+                      tarea['imagen'],
+                      tarea['subtitle'],
+                      tarea['respuestas'],
+                    );
+                  }),
+            );
           }),
     );
   }

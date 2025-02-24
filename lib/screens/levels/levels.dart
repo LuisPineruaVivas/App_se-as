@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:first_app/auth/firestore.dart';
 import 'package:first_app/screens/lesson/lesson1_screen.dart';
 import 'package:first_app/screens/lesson/lesson2_screen.dart';
 import 'package:first_app/screens/lesson/lesson3_screen.dart';
@@ -19,6 +20,40 @@ class LevelsScreen extends StatefulWidget {
 }
 
 class _LevelsScreenState extends State<LevelsScreen> {
+  num points = 0;
+  bool isLoading = true;
+  var lessons = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchPoints();
+  }
+
+  Future<void> _fetchPoints() async {
+    try {
+      lessons = await FirestoreDatasource.lessons().first;
+      num totalPoints =
+          lessons.fold(0, (sum, doc) => sum + (doc['respuestas'] ?? 0));
+      if (mounted) {
+        setState(() {
+          points = totalPoints;
+          isLoading = false; // Stop loading
+        });
+      }
+    } catch (error) {
+      if (mounted) {
+        setState(() {
+          isLoading = false; // Stop loading even on error
+        });
+      }
+    }
+  }
+
+  Future<List<dynamic>> _fetchLessons() async {
+    return lessons; // Simply return the already fetched lessons
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,39 +69,111 @@ class _LevelsScreenState extends State<LevelsScreen> {
                   'images/Vnzla.png',
                   height: 30,
                 ),
-                appBarItem('images/offFire.png', '0', Colors.grey),
-                appBarItem('images/crown.png', '0', Colors.grey),
+                appBarItem('images/crown.png', points, Colors.grey),
               ],
             )),
         body: Stack(
           alignment: Alignment.topRight,
           children: <Widget>[
-            ListView(children: <Widget>[
-              const SizedBox(
-                height: 15,
-              ),
-              twoLessons(
-                  lesson(
-                      'images/vocales.png', '1', 'Leccion 1', Colors.green, 1),
-                  lesson('images/abc.png', '0', 'Leccion 2', Colors.red, 2)),
-              const SizedBox(height: 15),
-              lesson('images/colores.png', '4', 'Leccion 3', Colors.green, 3),
-              const SizedBox(
-                height: 15,
-              ),
-              twoLessons(
-                  lesson(
-                      'images/numeros.png', '3', 'Leccion 4', Colors.teal, 4),
-                  lesson(
-                      'images/dias.png', '1', 'Leccion 5', Colors.orange, 5)),
-              const SizedBox(height: 15),
-              lesson('images/meses.png', '0', 'Leccion 6', Colors.teal, 6),
-            ]),
+            FutureBuilder(
+                future: _fetchLessons(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else if (snapshot.hasError) {
+                    return Center(
+                        child: Text(
+                            'Error cargando las lecciones \n Compruebe su conexion a internet'));
+                  } else {
+                    return ListView(
+                      children: <Widget>[
+                        const SizedBox(height: 15),
+                        twoLessons(
+                          lesson(
+                              'images/vocales.png',
+                              snapshot.data!.isNotEmpty
+                                  ? snapshot.data!.firstWhere(
+                                      (doc) => doc['title'] == 'Leccion 1',
+                                      orElse: () => {'respuestas': 0},
+                                    )['respuestas']
+                                  : 0,
+                              'Leccion 1',
+                              Colors.green,
+                              1),
+                          lesson(
+                              'images/abc.png',
+                              snapshot.data!.isNotEmpty
+                                  ? snapshot.data!.firstWhere(
+                                      (doc) => doc['title'] == 'Leccion 2',
+                                      orElse: () => {'respuestas': 0},
+                                    )['respuestas']
+                                  : 0,
+                              'Leccion 2',
+                              Colors.red,
+                              2),
+                        ),
+                        const SizedBox(height: 15),
+                        lesson(
+                            'images/colores.png',
+                            snapshot.data!.isNotEmpty
+                                ? snapshot.data!.firstWhere(
+                                    (doc) => doc['title'] == 'Leccion 3',
+                                    orElse: () =>
+                                        {'respuestas': 0})['respuestas']
+                                : 0,
+                            'Leccion 3',
+                            Colors.green,
+                            3),
+                        const SizedBox(height: 15),
+                        twoLessons(
+                          lesson(
+                              'images/numeros.png',
+                              snapshot.data!.isNotEmpty
+                                  ? snapshot.data!.firstWhere(
+                                      (doc) => doc['title'] == 'Leccion 4',
+                                      orElse: () =>
+                                          {'respuestas': 0})['respuestas']
+                                  : 0,
+                              'Leccion 4',
+                              Colors.teal,
+                              4),
+                          lesson(
+                              'images/dias.png',
+                              snapshot.data!.isNotEmpty
+                                  ? snapshot.data!.firstWhere(
+                                        (doc) => doc['title'] == 'Leccion 5',
+                                        orElse: () => {
+                                          'respuestas': 0
+                                        }, // Default if not found
+                                      )['respuestas'] ??
+                                      0 // Ensure null safety
+                                  : 0,
+                              'Leccion 5',
+                              Colors.orange,
+                              5),
+                        ),
+                        const SizedBox(height: 15),
+                        lesson(
+                            'images/salud.png',
+                            snapshot.data!.isNotEmpty
+                                ? snapshot.data!.firstWhere(
+                                      (doc) => doc['title'] == 'Leccion 6',
+                                      orElse: () => {'respuestas': 0},
+                                    )['respuestas'] ??
+                                    0
+                                : 0,
+                            'Leccion 6',
+                            Colors.orange,
+                            6)
+                      ],
+                    );
+                  }
+                })
           ],
         ));
   }
 
-  Widget appBarItem(String image, String num, Color color) {
+  Widget appBarItem(String image, num num, Color color) {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
@@ -75,7 +182,7 @@ class _LevelsScreenState extends State<LevelsScreen> {
           height: 30,
         ),
         Text(
-          num,
+          num.toString(),
           style: TextStyle(color: color, fontSize: 16),
         ),
       ],
@@ -83,7 +190,7 @@ class _LevelsScreenState extends State<LevelsScreen> {
   }
 
   Widget lesson(
-      String image, String number, String title, Color color, int lesson) {
+      String image, int number, String title, Color color, int lesson) {
     return InkWell(
       onTap: () {
         if (lesson == 1) {
@@ -148,7 +255,7 @@ class _LevelsScreenState extends State<LevelsScreen> {
                   backgroundColor: Colors.grey[300],
                   valueColor:
                       const AlwaysStoppedAnimation<Color>(Colors.yellow),
-                  value: double.parse(number) / 5,
+                  value: number / 10,
                   strokeWidth: 60,
                 ),
               ),
@@ -174,7 +281,7 @@ class _LevelsScreenState extends State<LevelsScreen> {
                 height: 30,
               ),
               Text(
-                number,
+                number.toString(),
                 style: const TextStyle(color: Colors.deepOrangeAccent),
               ),
             ]),

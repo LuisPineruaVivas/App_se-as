@@ -59,7 +59,7 @@ class Lesson6ScreenState extends State<Lesson6Screen> {
               "su propio gesto característico, el cual se utiliza para representar su nombre correspondiente",
           'images/Leccion6.mp4',
           'Leccion 6',
-          'Los Meses del Año',
+          'Asistencia Medica',
           1,
           checkButton: bottomButton(context, 'SIGUIENTE')),
       GridLesson(

@@ -31,7 +31,12 @@ class LoginController {
       bool isLogin = await _auth.login(email, password);
       if (isLogin) {
         if (user.currentUser != null) {
-          Navigator.pushNamed(context, HomeScreen.routeName);
+          Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(
+                builder: (context) => HomeScreen(),
+              ),
+              (route) => false);
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
               content: Text("El usuario ha iniciado Sesion"),
