@@ -97,7 +97,7 @@ class _LevelsScreenState extends State<LevelsScreen> {
                                       orElse: () => {'respuestas': 0},
                                     )['respuestas']
                                   : 0,
-                              'Leccion 1',
+                              'Lección 1',
                               Colors.green,
                               1),
                           lesson(
@@ -108,7 +108,7 @@ class _LevelsScreenState extends State<LevelsScreen> {
                                       orElse: () => {'respuestas': 0},
                                     )['respuestas']
                                   : 0,
-                              'Leccion 2',
+                              'Lección 2',
                               Colors.red,
                               2),
                         ),
@@ -121,7 +121,7 @@ class _LevelsScreenState extends State<LevelsScreen> {
                                     orElse: () =>
                                         {'respuestas': 0})['respuestas']
                                 : 0,
-                            'Leccion 3',
+                            'Lección 3',
                             Colors.green,
                             3),
                         const SizedBox(height: 15),
@@ -134,7 +134,7 @@ class _LevelsScreenState extends State<LevelsScreen> {
                                       orElse: () =>
                                           {'respuestas': 0})['respuestas']
                                   : 0,
-                              'Leccion 4',
+                              'Lección 4',
                               Colors.teal,
                               4),
                           lesson(
@@ -148,7 +148,7 @@ class _LevelsScreenState extends State<LevelsScreen> {
                                       )['respuestas'] ??
                                       0 // Ensure null safety
                                   : 0,
-                              'Leccion 5',
+                              'Lección 5',
                               Colors.orange,
                               5),
                         ),
@@ -162,7 +162,7 @@ class _LevelsScreenState extends State<LevelsScreen> {
                                     )['respuestas'] ??
                                     0
                                 : 0,
-                            'Leccion 6',
+                            'Lección 6',
                             Colors.orange,
                             6)
                       ],

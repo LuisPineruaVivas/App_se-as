@@ -82,7 +82,7 @@ class _EvaluationWidgetState extends State<EvaluationWidget> {
                                           Image.asset('images/test.png'),
                                           const SizedBox(width: 10),
                                           Text(
-                                            'Progreso ${widget.progreso}/2',
+                                            'Progreso ${widget.progreso}/5',
                                             style: const TextStyle(
                                                 color: Colors.white,
                                                 fontSize: 14,

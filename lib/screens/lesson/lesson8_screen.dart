@@ -6,7 +6,7 @@ import 'package:first_app/components/list_lesson.dart';
 import 'package:first_app/components/videolesson.dart';
 import 'package:flutter/material.dart';
 
-class Lesson8Screen extends StatefulWidget {
+/*class Lesson8Screen extends StatefulWidget {
   static String routeName = "/lesson8_screen";
 
   static int answers = 0;
@@ -185,4 +185,4 @@ class Lesson8ScreenState extends State<Lesson8Screen> {
       ),
     );
   }
-}
+}*/

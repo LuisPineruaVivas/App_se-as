@@ -9,9 +9,10 @@ class GridLesson extends StatefulWidget {
   final String imagen3;
   final String imagen4;
   final String correct;
+  final int tipo;
 
   const GridLesson(this.sign, this.imagen1, this.imagen2, this.imagen3,
-      this.imagen4, this.correct,
+      this.imagen4, this.correct, this.tipo,
       {required this.checkButton, super.key});
 
   @override
@@ -32,11 +33,11 @@ class GridLessonState extends State<GridLesson> {
         GridView.count(
           primary: false,
           shrinkWrap: true,
-          padding: const EdgeInsets.only(left: 15, right: 15),
+          padding: const EdgeInsets.only(left: 15, right: 20),
           crossAxisCount: 2,
           crossAxisSpacing: 20,
-          mainAxisSpacing: 5,
-          childAspectRatio: 0.8,
+          mainAxisSpacing: 20,
+          childAspectRatio: 0.7,
           children: [
             GestureDetector(
               onTap: () {
@@ -116,7 +117,7 @@ class GridLessonState extends State<GridLesson> {
   gridChoice(String image) {
     return show
         ? Container(
-            height: 250,
+            height: widget.tipo == 1 ? 250 : 400,
             padding: const EdgeInsets.all(2),
             decoration: BoxDecoration(
               color: const Color.fromARGB(255, 27, 97, 129),
@@ -136,7 +137,7 @@ class GridLessonState extends State<GridLesson> {
             ),
           )
         : Container(
-            height: 250,
+            height: widget.tipo == 1 ? 250 : 400,
             padding: const EdgeInsets.all(2),
             decoration: BoxDecoration(
               color: const Color.fromARGB(255, 27, 97, 129),
@@ -167,7 +168,7 @@ class GridLessonState extends State<GridLesson> {
           Text(
             question,
             style: const TextStyle(
-                fontSize: 22,
+                fontSize: 30,
                 fontWeight: FontWeight.bold,
                 color: Color(0xFF4B4B4B)),
           )
@@ -184,7 +185,7 @@ class GridLessonState extends State<GridLesson> {
         borderRadius: BorderRadius.circular(10),
       ),
       child: const Icon(
-        Icons.volume_up,
+        Icons.back_hand,
         color: Colors.white,
         size: 35,
       ),

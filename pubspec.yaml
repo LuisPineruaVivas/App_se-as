@@ -80,6 +80,8 @@ flutter:
   assets:
     - images/
     - assets/
+    - assets/lesson1/
+    - assets/lesson2/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

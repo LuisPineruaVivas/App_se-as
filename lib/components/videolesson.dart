@@ -43,66 +43,65 @@ class _VideoLessonState extends State<VideoLesson>
   Widget build(BuildContext context) {
     TabController tabController = TabController(length: 2, vsync: this);
 
-    return Scaffold(
-      body: Column(
-        children: [
-          instruction(widget.titulo),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: Center(
-              child: ClipRRect(
-                  borderRadius: const BorderRadius.all(Radius.circular(10)),
-                  child: FlickVideoPlayer(flickManager: flickManager)),
-            ),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        instruction(widget.titulo),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          child: Center(
+            child: ClipRRect(
+                borderRadius: const BorderRadius.all(Radius.circular(10)),
+                child: FlickVideoPlayer(flickManager: flickManager)),
           ),
-          const SizedBox(height: 10),
-          Text(widget.tema,
-              style: const TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.bold,
-                color: Color(0xFF4B4B4B),
-              )),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: TabBar(
-                labelStyle: const TextStyle(fontSize: 18.0),
-                indicatorSize: TabBarIndicatorSize.tab,
-                labelColor: Colors.white,
-                unselectedLabelColor: Colors.black,
-                controller: tabController,
-                indicator: const BoxDecoration(
-                    color: Color.fromARGB(255, 0, 105, 155),
-                    borderRadius: BorderRadius.all(Radius.circular(10))),
-                tabs: const [Tab(text: 'Leccion'), Tab(text: 'Señas')]),
+        ),
+        const SizedBox(height: 10),
+        Text(widget.tema,
+            style: const TextStyle(
+              fontSize: 22,
+              fontWeight: FontWeight.bold,
+              color: Color(0xFF4B4B4B),
+            )),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          child: TabBar(
+              labelStyle: const TextStyle(fontSize: 18.0),
+              indicatorSize: TabBarIndicatorSize.tab,
+              labelColor: Colors.white,
+              unselectedLabelColor: Colors.black,
+              controller: tabController,
+              indicator: const BoxDecoration(
+                  color: Color.fromARGB(255, 0, 105, 155),
+                  borderRadius: BorderRadius.all(Radius.circular(10))),
+              tabs: const [Tab(text: 'Lección'), Tab(text: 'Señas')]),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          child: Container(
+            margin: const EdgeInsets.only(top: 10),
+            width: double.maxFinite,
+            height: 250,
+            child: TabBarView(controller: tabController, children: [
+              Text(widget.info,
+                  style: const TextStyle(
+                      fontSize: 16, fontWeight: FontWeight.bold)),
+              ListView.builder(
+                  itemCount: widget.images.length,
+                  itemBuilder: (contex, index) {
+                    if (widget.option == 1) {
+                      return SenaWidget('Seña', '${widget.names[index]}',
+                          'images/${widget.images[index]}');
+                    } else {
+                      return SenaWidget2('Seña', '${widget.names[index]}',
+                          'images/${widget.images[index]}');
+                    }
+                  }),
+            ]),
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: Container(
-              margin: const EdgeInsets.only(top: 10),
-              width: double.maxFinite,
-              height: 250,
-              child: TabBarView(controller: tabController, children: [
-                Text(widget.info,
-                    style: const TextStyle(
-                        fontSize: 16, fontWeight: FontWeight.bold)),
-                ListView.builder(
-                    itemCount: widget.images.length,
-                    itemBuilder: (contex, index) {
-                      if (widget.option == 1) {
-                        return SenaWidget('Seña', '${widget.names[index]}',
-                            'images/${widget.images[index]}');
-                      } else {
-                        return SenaWidget2('Seña', '${widget.names[index]}',
-                            'images/${widget.images[index]}');
-                      }
-                    }),
-              ]),
-            ),
-          ),
-          const SizedBox(height: 20),
-          widget.checkButton,
-        ],
-      ),
+        ),
+        const SizedBox(height: 20),
+        widget.checkButton,
+      ],
     );
   }
 

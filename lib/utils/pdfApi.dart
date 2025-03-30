@@ -189,7 +189,7 @@ class PdfApi {
                               ? evaluations[i]['subtitle'] ?? ''
                               : ''),
                           pw.Text(i < evaluations.length
-                              ? '${evaluations[i]['respuestas'].toString()}/10'
+                              ? '${evaluations[i]['respuestas'].toString()}/5'
                               : ''),
                         ],
                       ),

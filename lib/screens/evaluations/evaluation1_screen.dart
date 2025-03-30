@@ -1,15 +1,14 @@
-import 'package:first_app/auth/firestore.dart';
+import 'dart:math';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:first_app/components/bottom_button.dart';
-import 'package:first_app/components/drag_lesson.dart';
-import 'package:first_app/components/grid_lesson.dart';
 import 'package:first_app/components/lesson_app_bar.dart';
-import 'package:first_app/components/list_lesson.dart';
 import 'package:first_app/components/sign_evaluation.dart';
 import 'package:first_app/variables.dart';
 import 'package:flutter/material.dart';
 
 class Evaluation1Screen extends StatefulWidget {
-  static String routeName = "/lesson_screen";
+  static String routeName = "/evaluation1_screen";
 
   const Evaluation1Screen({super.key});
 
@@ -22,6 +21,9 @@ class Evaluation1Screen extends StatefulWidget {
 class Evaluation1ScreenState extends State<Evaluation1Screen> {
   double percent = 0;
   int index = 0;
+  List<String> letters = ['A', 'E', 'I', 'O', 'U'];
+  List<String> randomLetters = [];
+  bool isEvaluating = true;
 
   @override
   void initState() {
@@ -32,71 +34,12 @@ class Evaluation1ScreenState extends State<Evaluation1Screen> {
 
   @override
   Widget build(BuildContext context) {
-    var lessons = [
-      SignEvaluation('Realice la seña de la letra U',
-          const ['U', 'E', 'I', 'O'], 'images/u.png', 'U',
+    var lessons = List.generate(
+      5, // Solo 5 evaluaciones
+      (i) => SignEvaluation('Realiza la seña de la letra ${randomLetters[i]}',
+          letters, randomLetters[i], '', '',
           checkButton: bottomButton(context, 'SIGUIENTE')),
-      GridLesson(
-        'Letra A',
-        'images/E.png',
-        'images/A.png',
-        'images/o.png',
-        'images/i.png',
-        'images/A.png',
-        checkButton: bottomButton(context, 'SIGUIENTE'),
-      ),
-      ListLesson('Traduce la siguiente seña', const ['U', 'E', 'I', 'O'],
-          'images/u.png', 'U',
-          checkButton: bottomButton(context, 'SIGUIENTE')),
-      GridLesson(
-        'Letra O',
-        'images/o.png',
-        'images/E.png',
-        'images/A.png',
-        'images/i.png',
-        'images/o.png',
-        checkButton: bottomButton(context, 'SIGUIENTE'),
-      ),
-      DragLesson(
-          'images/u.png', ['A', 'O', 'Vocales', 'I', 'U', 'E'], const ['U'],
-          checkButton: bottomButton(context, 'SIGUIENTE')),
-      GridLesson(
-        'Letra I',
-        'images/i.png',
-        'images/E.png',
-        'images/A.png',
-        'images/u.png',
-        'images/i.png',
-        checkButton: bottomButton(context, 'SIGUIENTE'),
-      ),
-      ListLesson('Traduce la siguiente seña', const ['U', 'O', 'A', 'I'],
-          'images/o.png', 'O',
-          checkButton: bottomButton(context, 'SIGUIENTE')),
-      GridLesson(
-        'Letra U',
-        'images/u.png',
-        'images/o.png',
-        'images/i.png',
-        'images/E.png',
-        'images/u.png',
-        checkButton: bottomButton(context, 'SIGUIENTE'),
-      ),
-      ListLesson('Traduce la siguiente seña', const ["E", 'A', 'O', 'I'],
-          'images/i.png', 'I',
-          checkButton: bottomButton(context, 'SIGUIENTE')),
-      GridLesson(
-        'Letra A',
-        'images/u.png',
-        'images/A.png',
-        'images/i.png',
-        'images/E.png',
-        'images/A.png',
-        checkButton: bottomButton(context, 'SIGUIENTE'),
-      ),
-      ListLesson('Traduce la siguiente seña', const ["U", 'I', 'A', 'E'],
-          'images/u.png', 'U',
-          checkButton: bottomButton(context, 'SIGUIENTE')),
-    ];
+    );
 
     return Scaffold(
       appBar: LessonAppBar(percent: percent),
@@ -114,15 +57,14 @@ class Evaluation1ScreenState extends State<Evaluation1Screen> {
           onPressed: () {
             setState(() {
               if (percent <= 99) {
-                percent += 10;
+                percent += 25;
                 index++;
               } else {
-                FirestoreDatasource.addlesson('Leccion 1', respuestas,
-                    'images/vocales.png', 'Las Vocales');
+                saveResultsToFirebase();
                 showDialog(
                   context: context,
                   builder: (BuildContext context) {
-                    return dialog('Resultado $respuestas /10');
+                    return dialog('Resultado $respuestas /5');
                   },
                 );
               }
@@ -190,7 +132,67 @@ class Evaluation1ScreenState extends State<Evaluation1Screen> {
     setState(() {
       percent = 0;
       index = 0;
-      respuestas = 0; // Reinicio de respuestas al iniciar la evaluación
+      randomLetters = List.from(letters)..shuffle(Random());
+      isEvaluating = true;
     });
+  }
+
+  // Obtener el UID del usuario actual de FirebaseAuth
+  String get userId {
+    final user = FirebaseAuth.instance.currentUser;
+    return user != null
+        ? user.uid
+        : ''; // Devuelve el UID del usuario autenticado
+  }
+
+  Future<void> saveResultsToFirebase() async {
+    try {
+      // Buscar si ya existe una evaluación para este usuario y evaluación (Evaluacion 1)
+      var evaluationSnapshot = await FirebaseFirestore.instance
+          .collection('users') // Colección de usuarios
+          .doc(userId) // Documento del usuario actual
+          .collection('evaluation') // Subcolección 'evaluation'
+          .where('title', isEqualTo: 'Evaluacion 1') // Filtramos por título
+          .get();
+
+      if (evaluationSnapshot.docs.isEmpty) {
+        // Si no existe, creamos una nueva evaluación
+        final newEvaluationId =
+            FirebaseFirestore.instance.collection('evaluation').doc().id;
+        final newResults = {
+          "imagen": "images/vocales.png",
+          "respuestas": respuestas,
+          "subtitle": "Las Vocales",
+          "title": "Evaluacion 1",
+          "Fecha de realizacion": Timestamp.now(),
+        };
+
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(userId)
+            .collection('evaluation')
+            .doc(newEvaluationId)
+            .set(newResults); // Guarda la nueva evaluación
+      } else {
+        // Si ya existe, actualizamos la evaluación existente
+        var docId = evaluationSnapshot.docs.first.id;
+        final updatedResults = {
+          "imagen": "images/vocales.png",
+          "respuestas": respuestas,
+          "subtitle": "Las Vocales",
+          "title": "Evaluacion 1",
+          "Date": Timestamp.now(),
+        };
+
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(userId)
+            .collection('evaluation')
+            .doc(docId)
+            .update(updatedResults); // Actualiza la evaluación existente
+      }
+    } catch (e) {
+      print("Error saving/updating results to Firebase: $e");
+    }
   }
 }

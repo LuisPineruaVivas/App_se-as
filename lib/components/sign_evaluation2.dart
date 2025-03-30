@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:first_app/variables.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mlkit_image_labeling/google_mlkit_image_labeling.dart';
 import 'package:image_picker/image_picker.dart';
@@ -19,20 +20,16 @@ Future<String> getModelPath(String asset) async {
 }
 
 class SignEvaluation2 extends StatefulWidget {
+  final Widget checkButton;
   final String instructionText;
   final List<String> answers;
   final String correct;
-  final Function onSenaCorrecta;
-  final Function onSenaIncorrecta;
+  String image;
+  String results;
 
-  const SignEvaluation2(
-    this.instructionText,
-    this.answers,
-    this.correct, {
-    required this.onSenaCorrecta,
-    required this.onSenaIncorrecta,
-    super.key,
-  });
+  SignEvaluation2(this.instructionText, this.answers, this.correct, this.image,
+      this.results,
+      {required this.checkButton, super.key});
 
   @override
   SignEvaluation2State createState() => SignEvaluation2State();
@@ -42,60 +39,85 @@ class SignEvaluation2State extends State<SignEvaluation2> {
   File? image;
   late ImagePicker imagePicker;
   late ImageLabeler labeler;
-  String results = "";
+  bool realizada = false;
+
+  bool show = false;
+  bool isactive = true;
 
   @override
-  void initState() {
+  initState() {
     super.initState();
     imagePicker = ImagePicker();
   }
 
-  Future<void> chooseImage() async {
+  chooseImage() async {
     XFile? selectedImage =
         await imagePicker.pickImage(source: ImageSource.camera);
     if (selectedImage != null) {
       image = File(selectedImage.path);
-      await performImageLabeling();
+      performImageLabeling();
       setState(() {
         image;
+        widget.image = 'Yes';
       });
     }
   }
 
-  Future<void> performImageLabeling() async {
-    final modelPath = await getModelPath('assets/model.tflite');
+  performImageLabeling() async {
+    final modelPath = await getModelPath('assets/lesson2/model.tflite');
     final options =
         LocalLabelerOptions(modelPath: modelPath, confidenceThreshold: 0.5);
     labeler = ImageLabeler(options: options);
-    results = "";
+    widget.results = "";
     InputImage inputImage = InputImage.fromFile(image!);
 
     final List<ImageLabel> labels = await labeler.processImage(inputImage);
 
-    bool isCorrect = false; // Para verificar si la respuesta es correcta
-
     for (ImageLabel label in labels) {
+      print(widget.correct);
       final String text = label.label;
+      print(text);
+      final int index = label.index;
+      print(index);
       final double confidence = label.confidence;
 
-      if (text == widget.correct && confidence >= 0.5) {
-        isCorrect = true;
-        widget.onSenaCorrecta(); // Llama a la función de respuesta correcta
-        break;
+      if (widget.correct == 'V' && index == 4 && confidence >= 0.5) {
+        setState(() {
+          respuestas++;
+          widget.results = "Seña correcta";
+          realizada = true;
+        }); // Llama a la función de respuesta correcta
+      } else if (widget.correct == 'R' && index == 3 && confidence >= 0.5) {
+        setState(() {
+          respuestas++;
+          widget.results = "Seña correcta";
+          realizada = true;
+        }); // Llama a la función de respuesta correcta
+      } else if (widget.correct == 'N' && index == 2 && confidence >= 0.5) {
+        setState(() {
+          respuestas++;
+          widget.results = "Seña correcta";
+          realizada = true;
+        }); // Llama a la función de respuesta correcta
+      } else if (widget.correct == 'L' && index == 1 && confidence >= 0.5) {
+        setState(() {
+          respuestas++;
+          widget.results = "Seña correcta";
+          realizada = true;
+        }); // Llama a la función de respuesta correcta
+      } else if (widget.correct == 'B' && index == 0 && confidence >= 0.5) {
+        setState(() {
+          respuestas++;
+          widget.results = "Seña correcta";
+          realizada = true;
+        }); // Llama a la función de respuesta correcta
+      } else {
+        setState(() {
+          widget.results = "Seña incorrecta";
+          realizada = true;
+        });
       }
     }
-
-    if (!isCorrect) {
-      widget.onSenaIncorrecta(); // Llama a la función de respuesta incorrecta
-    }
-
-    // Actualiza el resultado en pantalla
-    setState(() {
-      results = labels
-          .map((label) =>
-              "Seña ${label.label} - Confianza: ${label.confidence.toStringAsFixed(2)}")
-          .join("\n");
-    });
   }
 
   @override
@@ -109,49 +131,52 @@ class SignEvaluation2State extends State<SignEvaluation2> {
               mainAxisSize: MainAxisSize.max,
               children: <Widget>[
                 Padding(
-                  padding: const EdgeInsets.only(left: 20, right: 20, top: 30),
-                  child: Column(
-                    children: [
-                      image == null
-                          ? const Icon(
-                              Icons.image_outlined,
-                              size: 300,
-                            )
-                          : Image.file(
-                              image!,
-                              height: 400,
-                            ),
-                      const SizedBox(height: 10),
-                      GestureDetector(
-                        onTap: chooseImage,
-                        child: Container(
-                          height: 40,
-                          width: 150,
-                          decoration: BoxDecoration(
-                            color: const Color.fromARGB(255, 0, 105, 155),
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                          child: const Center(
-                            child: Text(
-                              'Grabar Seña',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 20.0,
-                                fontWeight: FontWeight.bold,
+                    padding:
+                        const EdgeInsets.only(left: 20, right: 20, top: 30),
+                    child: Column(
+                      children: [
+                        widget.image == ''
+                            ? const Icon(
+                                Icons.image_outlined,
+                                size: 300,
+                              )
+                            : Image.file(
+                                image!,
+                                height: 400,
                               ),
-                            ),
-                          ),
+                        const SizedBox(height: 10),
+                        GestureDetector(
+                          onTap: () {
+                            chooseImage();
+                          },
+                          child: Container(
+                              height: 35,
+                              width: 150,
+                              decoration: BoxDecoration(
+                                  color: const Color.fromARGB(255, 0, 105, 155),
+                                  borderRadius: BorderRadius.circular(30)),
+                              child: const Center(
+                                child: Text(
+                                  'Grabar Seña',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 20.0,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              )),
                         ),
-                      ),
-                      const SizedBox(height: 10),
-                      Text(
-                        results,
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(fontSize: 16),
-                      ),
-                    ],
-                  ),
-                ),
+                        Text(widget.results,
+                            style: widget.results == "Seña correcta"
+                                ? const TextStyle(
+                                    color: Colors.green,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold)
+                                : const TextStyle(
+                                    color: Colors.red,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold)),
+                      ],
+                    )),
                 const Padding(
                   padding: EdgeInsets.only(bottom: 15),
                 ),
@@ -159,11 +184,46 @@ class SignEvaluation2State extends State<SignEvaluation2> {
             ),
           ),
         ),
+        realizada ? widget.checkButton : const SizedBox(height: 10),
       ],
     );
   }
 
-  Widget instruction(String text) {
+  questionRow(String question) {
+    return Container(
+      margin: const EdgeInsets.only(left: 15, bottom: 5),
+      child: Row(
+        children: [
+          speakButton(),
+          const Padding(padding: EdgeInsets.only(right: 15)),
+          Text(
+            question,
+            style: const TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+                color: Color(0xFF4B4B4B)),
+          )
+        ],
+      ),
+    );
+  }
+
+  speakButton() {
+    return Container(
+      padding: const EdgeInsets.all(5),
+      decoration: BoxDecoration(
+        color: const Color(0xFF1CB0F6),
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: const Icon(
+        Icons.volume_up,
+        color: Colors.white,
+        size: 35,
+      ),
+    );
+  }
+
+  instruction(String text) {
     return Align(
       alignment: Alignment.centerLeft,
       child: Container(

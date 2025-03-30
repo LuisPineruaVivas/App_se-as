@@ -32,14 +32,14 @@ class ListLessonState extends State<ListLesson> {
               children: [
                 Padding(
                     padding:
-                        const EdgeInsets.only(left: 20, right: 20, top: 30),
+                        const EdgeInsets.only(left: 20, right: 20, top: 10),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(20),
                       child: Image.asset(widget.imagen,
-                          height: 250, width: 300, fit: BoxFit.fill),
+                          height: 320, width: 300, fit: BoxFit.fill),
                     )),
                 const Padding(
-                  padding: EdgeInsets.only(bottom: 15),
+                  padding: EdgeInsets.only(bottom: 10),
                 ),
                 GestureDetector(
                   onTap: () {
@@ -59,7 +59,7 @@ class ListLessonState extends State<ListLesson> {
                   ),
                 ),
                 const Padding(
-                  padding: EdgeInsets.only(bottom: 15),
+                  padding: EdgeInsets.only(bottom: 10),
                 ),
                 GestureDetector(
                   onTap: () {
@@ -79,7 +79,7 @@ class ListLessonState extends State<ListLesson> {
                   ),
                 ),
                 const Padding(
-                  padding: EdgeInsets.only(bottom: 15),
+                  padding: EdgeInsets.only(bottom: 10),
                 ),
                 GestureDetector(
                   onTap: () {
@@ -99,7 +99,7 @@ class ListLessonState extends State<ListLesson> {
                   ),
                 ),
                 const Padding(
-                  padding: EdgeInsets.only(bottom: 15),
+                  padding: EdgeInsets.only(bottom: 10),
                 ),
                 GestureDetector(
                   onTap: () {
@@ -167,7 +167,7 @@ class ListLessonState extends State<ListLesson> {
 
   questionRow(String question) {
     return Container(
-      margin: const EdgeInsets.only(left: 15, bottom: 5),
+      margin: const EdgeInsets.only(left: 15, bottom: 0),
       child: Row(
         children: [
           speakButton(),
@@ -203,7 +203,7 @@ class ListLessonState extends State<ListLesson> {
     return Align(
       alignment: Alignment.centerLeft,
       child: Container(
-        padding: const EdgeInsets.only(top: 10, left: 15),
+        padding: const EdgeInsets.only(top: 0, left: 15),
         child: Text(
           text,
           style: const TextStyle(

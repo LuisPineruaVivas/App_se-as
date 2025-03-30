@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:first_app/variables.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mlkit_image_labeling/google_mlkit_image_labeling.dart';
 import 'package:image_picker/image_picker.dart';
@@ -22,11 +23,12 @@ class SignEvaluation extends StatefulWidget {
   final Widget checkButton;
   final String instructionText;
   final List<String> answers;
-  final String imagen;
   final String correct;
+  String image;
+  String results;
 
-  const SignEvaluation(
-      this.instructionText, this.answers, this.imagen, this.correct,
+  SignEvaluation(this.instructionText, this.answers, this.correct, this.image,
+      this.results,
       {required this.checkButton, super.key});
 
   @override
@@ -37,7 +39,7 @@ class SignEvaluationState extends State<SignEvaluation> {
   File? image;
   late ImagePicker imagePicker;
   late ImageLabeler labeler;
-  String results = "";
+  bool realizada = false;
 
   bool show = false;
   bool isactive = true;
@@ -56,28 +58,65 @@ class SignEvaluationState extends State<SignEvaluation> {
       performImageLabeling();
       setState(() {
         image;
+        widget.image = 'Yes';
       });
     }
   }
 
   performImageLabeling() async {
-    final modelPath = await getModelPath('assets/model.tflite');
+    final modelPath = await getModelPath('assets/lesson1/model.tflite');
     final options =
         LocalLabelerOptions(modelPath: modelPath, confidenceThreshold: 0.5);
     labeler = ImageLabeler(options: options);
-    results = "";
+    widget.results = "";
     InputImage inputImage = InputImage.fromFile(image!);
 
     final List<ImageLabel> labels = await labeler.processImage(inputImage);
 
     for (ImageLabel label in labels) {
+      print(widget.correct);
       final String text = label.label;
+      print(text);
+      final int index = label.index;
+      print(index);
       final double confidence = label.confidence;
-      results += "Seña $text  ${confidence.toStringAsFixed(2)}\n";
 
-      setState(() {
-        results;
-      });
+      if (widget.correct == 'A' && index == 0 && confidence >= 0.5) {
+        setState(() {
+          respuestas++;
+          widget.results = "Seña correcta";
+          realizada = true;
+        }); // Llama a la función de respuesta correcta
+      } else if (widget.correct == 'E' && index == 1 && confidence >= 0.5) {
+        setState(() {
+          respuestas++;
+          widget.results = "Seña correcta";
+          realizada = true;
+        }); // Llama a la función de respuesta correcta
+      } else if (widget.correct == 'I' && index == 2 && confidence >= 0.5) {
+        setState(() {
+          respuestas++;
+          widget.results = "Seña correcta";
+          realizada = true;
+        }); // Llama a la función de respuesta correcta
+      } else if (widget.correct == 'O' && index == 3 && confidence >= 0.5) {
+        setState(() {
+          respuestas++;
+          widget.results = "Seña correcta";
+          realizada = true;
+        }); // Llama a la función de respuesta correcta
+      } else if (widget.correct == 'U' && index == 4 && confidence >= 0.5) {
+        setState(() {
+          respuestas++;
+          widget.results = "Seña correcta";
+          realizada = true;
+        }); // Llama a la función de respuesta correcta
+      } else {
+        setState(() {
+          widget.results = "Seña incorrecta";
+          realizada = true;
+        });
+      }
     }
   }
 
@@ -96,7 +135,7 @@ class SignEvaluationState extends State<SignEvaluation> {
                         const EdgeInsets.only(left: 20, right: 20, top: 30),
                     child: Column(
                       children: [
-                        image == null
+                        widget.image == ''
                             ? const Icon(
                                 Icons.image_outlined,
                                 size: 300,
@@ -126,7 +165,16 @@ class SignEvaluationState extends State<SignEvaluation> {
                                 ),
                               )),
                         ),
-                        Text(results),
+                        Text(widget.results,
+                            style: widget.results == "Seña correcta"
+                                ? const TextStyle(
+                                    color: Colors.green,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold)
+                                : const TextStyle(
+                                    color: Colors.red,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold)),
                       ],
                     )),
                 const Padding(
@@ -136,47 +184,9 @@ class SignEvaluationState extends State<SignEvaluation> {
             ),
           ),
         ),
-        widget.checkButton,
+        realizada ? widget.checkButton : const SizedBox(height: 10),
       ],
     );
-  }
-
-  listChoice(String title) {
-    return show
-        ? Container(
-            width: double.infinity,
-            margin: const EdgeInsets.only(left: 15, right: 15),
-            padding: const EdgeInsets.all(15),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15),
-              border: Border.all(
-                width: 3,
-                color: title == widget.correct ? Colors.green : Colors.red,
-              ),
-            ),
-            child: Text(
-              title,
-              textAlign: TextAlign.center,
-              style: const TextStyle(fontSize: 17),
-            ),
-          )
-        : Container(
-            width: double.infinity,
-            margin: const EdgeInsets.only(left: 15, right: 15),
-            padding: const EdgeInsets.all(15),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15),
-              border: Border.all(
-                width: 3,
-                color: const Color.fromARGB(255, 27, 97, 129),
-              ),
-            ),
-            child: Text(
-              title,
-              textAlign: TextAlign.center,
-              style: const TextStyle(fontSize: 17),
-            ),
-          );
   }
 
   questionRow(String question) {

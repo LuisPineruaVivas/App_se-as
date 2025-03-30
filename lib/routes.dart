@@ -32,7 +32,7 @@ final Map<String, WidgetBuilder> routes = {
   Lesson4Screen.routeName: (context) => const Lesson4Screen(),
   Lesson5Screen.routeName: (context) => const Lesson5Screen(),
   Lesson6Screen.routeName: (context) => const Lesson6Screen(),
-  Lesson7Screen.routeName: (context) => const Lesson7Screen(),
-  Lesson8Screen.routeName: (context) => const Lesson8Screen(),
+  //Lesson7Screen.routeName: (context) => const Lesson7Screen(),
+  //Lesson8Screen.routeName: (context) => const Lesson8Screen(),
   EvaluationScreen.routeName: (context) => const EvaluationScreen(),
 };
