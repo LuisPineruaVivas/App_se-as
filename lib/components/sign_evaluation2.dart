@@ -74,11 +74,7 @@ class SignEvaluation2State extends State<SignEvaluation2> {
     final List<ImageLabel> labels = await labeler.processImage(inputImage);
 
     for (ImageLabel label in labels) {
-      print(widget.correct);
-      final String text = label.label;
-      print(text);
       final int index = label.index;
-      print(index);
       final double confidence = label.confidence;
 
       if (widget.correct == 'V' && index == 4 && confidence >= 0.5) {

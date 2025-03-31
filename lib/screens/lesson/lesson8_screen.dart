@@ -1,11 +1,3 @@
-import 'package:first_app/components/bottom_button.dart';
-import 'package:first_app/components/drag_lesson.dart';
-import 'package:first_app/components/grid_lesson.dart';
-import 'package:first_app/components/lesson_app_bar.dart';
-import 'package:first_app/components/list_lesson.dart';
-import 'package:first_app/components/videolesson.dart';
-import 'package:flutter/material.dart';
-
 /*class Lesson8Screen extends StatefulWidget {
   static String routeName = "/lesson8_screen";
 

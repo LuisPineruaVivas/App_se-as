@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:first_app/components/evaluation_item.dart';
 import 'package:first_app/components/lesson_item.dart';
 import 'package:first_app/screens/home/controller/perfil_controller.dart';
@@ -6,6 +8,7 @@ import 'package:first_app/utils/savePDF.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
+import 'package:path_provider/path_provider.dart';
 import '../log/forgot_password.dart';
 
 class PerfilScreen extends StatefulWidget {
@@ -36,11 +39,30 @@ class _PerfilScreenState extends State<PerfilScreen>
     return Scaffold(
         backgroundColor: Colors.grey[200],
         appBar: AppBar(
-          automaticallyImplyLeading: false,
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          systemOverlayStyle: SystemUiOverlayStyle.dark,
-        ),
+            automaticallyImplyLeading: false,
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+            systemOverlayStyle: SystemUiOverlayStyle.dark,
+            title: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: <Widget>[
+                IconButton(
+                  icon: Icon(Icons.help,
+                      size: 40, color: Color.fromARGB(255, 0, 105, 155)),
+                  onPressed: () async {
+                    final byteData = await rootBundle.load('assets/MANUAL.pdf');
+                    final tempDir = await getTemporaryDirectory();
+                    final tempFile = File('${tempDir.path}/MANUAL.pdf');
+                    await tempFile.writeAsBytes(byteData.buffer.asUint8List());
+                    SaveAndOpenDocument.openPdf(tempFile);
+                  },
+                ),
+                Text(
+                  'Ayuda',
+                  style: TextStyle(color: Colors.black, fontSize: 16),
+                )
+              ],
+            )),
         body: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,

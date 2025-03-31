@@ -8,8 +8,6 @@ import 'package:first_app/screens/lesson/lesson3_screen.dart';
 import 'package:first_app/screens/lesson/lesson4_screen.dart';
 import 'package:first_app/screens/lesson/lesson5_screen.dart';
 import 'package:first_app/screens/lesson/lesson6_screen.dart';
-import 'package:first_app/screens/lesson/lesson7_screen.dart';
-import 'package:first_app/screens/lesson/lesson8_screen.dart';
 import 'package:first_app/screens/levels/levels.dart';
 import 'package:first_app/screens/log/forgot_password.dart';
 import 'package:first_app/screens/log/login.dart';

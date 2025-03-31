@@ -19,6 +19,7 @@ Future<String> getModelPath(String asset) async {
   return file.path;
 }
 
+// ignore: must_be_immutable
 class SignEvaluation extends StatefulWidget {
   final Widget checkButton;
   final String instructionText;
@@ -74,11 +75,7 @@ class SignEvaluationState extends State<SignEvaluation> {
     final List<ImageLabel> labels = await labeler.processImage(inputImage);
 
     for (ImageLabel label in labels) {
-      print(widget.correct);
-      final String text = label.label;
-      print(text);
       final int index = label.index;
-      print(index);
       final double confidence = label.confidence;
 
       if (widget.correct == 'A' && index == 0 && confidence >= 0.5) {
