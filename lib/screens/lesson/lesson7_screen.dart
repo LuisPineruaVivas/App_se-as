@@ -1,7 +1,16 @@
-/*class Lesson7Screen extends StatefulWidget {
-  static String routeName = "/lesson7_screen";
+import 'package:first_app/auth/firestore.dart';
+import 'package:first_app/components/bottom_button.dart';
+import 'package:first_app/components/drag_lesson.dart';
+import 'package:first_app/components/grid_lesson.dart';
+import 'package:first_app/components/lesson_app_bar.dart';
+import 'package:first_app/components/list_lesson.dart';
+import 'package:first_app/components/videolesson.dart';
+import 'package:first_app/variables.dart';
+import 'package:flutter/material.dart';
 
-  static int answers = 0;
+class Lesson7Screen extends StatefulWidget {
+  static String routeName = "/lesson_screen";
+
   const Lesson7Screen({super.key});
   @override
   State<StatefulWidget> createState() {
@@ -10,7 +19,7 @@
 }
 
 class Lesson7ScreenState extends State<Lesson7Screen> {
-  double percent = 10.0;
+  double percent = 0;
   int index = 0;
 
   @override
@@ -58,29 +67,29 @@ class Lesson7ScreenState extends State<Lesson7Screen> {
           2,
           checkButton: bottomButton(context, 'SIGUIENTE')),
       GridLesson(
-        'Permiso',
-        'images/perdon.gif',
-        'images/porfavor.gif',
-        'images/hola.gif',
-        'images/permiso.gif',
-        'images/permiso.gif',
-        checkButton: bottomButton(context, 'SIGUIENTE'),
-      ),
+          'Permiso',
+          'images/perdon.gif',
+          'images/porfavor.gif',
+          'images/hola.gif',
+          'images/permiso.gif',
+          'images/permiso.gif',
+          checkButton: bottomButton(context, 'SIGUIENTE'),
+          2),
       ListLesson(
           'Traduce la siguiente seña',
           const ['Hola', 'Buenas Noches', 'Adios', 'Buenas Tardes'],
           'images/buenasnoches.gif',
-          'Hola',
+          'Buenas Noches',
           checkButton: bottomButton(context, 'SIGUIENTE')),
       GridLesson(
-        'Buenos Dias',
-        'images/buenosdias.gif',
-        'images/buenastardes.gif',
-        'images/buenasnoches.gif',
-        'images/permiso.gif',
-        'images/buenosdias.gif',
-        checkButton: bottomButton(context, 'SIGUIENTE'),
-      ),
+          'Buenos Dias',
+          'images/buenosdias.gif',
+          'images/buenastardes.gif',
+          'images/buenasnoches.gif',
+          'images/permiso.gif',
+          'images/buenosdias.gif',
+          checkButton: bottomButton(context, 'SIGUIENTE'),
+          2),
       DragLesson('images/adios.gif',
           ['Hola', 'Permiso', 'Gracias', 'Por favor', 'Adios'], const ['Adios'],
           checkButton: bottomButton(context, 'SIGUIENTE')),
@@ -88,22 +97,22 @@ class Lesson7ScreenState extends State<Lesson7Screen> {
           'Traduce la siguiente seña',
           const ['Buenas Noches.', 'Gracias', 'Por favor', 'Adios'],
           'images/gracias.gif',
-          'Adios',
+          'Gracias',
           checkButton: bottomButton(context, 'SIGUIENTE')),
       GridLesson(
-        'A la orden',
-        'images/alaorden.gif',
-        'images/gracias.gif',
-        'images/permiso.gif',
-        'images/perdon.gif',
-        'images/alaorden.gif',
-        checkButton: bottomButton(context, 'SIGUIENTE'),
-      ),
+          'A la orden',
+          'images/alaorden.gif',
+          'images/gracias.gif',
+          'images/permiso.gif',
+          'images/perdon.gif',
+          'images/alaorden.gif',
+          checkButton: bottomButton(context, 'SIGUIENTE'),
+          2),
       ListLesson(
           'Traduce la siguiente seña',
           const ["Permiso", 'Buenos dias', 'Adios', 'Hola'],
           'images/permiso.gif',
-          'Hola',
+          'Permiso',
           checkButton: bottomButton(context, 'SIGUIENTE')),
       DragLesson(
           'images/gracias.gif',
@@ -117,14 +126,20 @@ class Lesson7ScreenState extends State<Lesson7Screen> {
           const ['Gracias'],
           checkButton: bottomButton(context, 'SIGUIENTE')),
       GridLesson(
-        'Buen Provecho',
-        'images/buenasnoches.gif',
-        'images/bienvenido.gif',
-        'images/adios.gif',
-        'images/buenprovecho.gif',
-        'images/buenprovecho.gif',
-        checkButton: bottomButton(context, 'SIGUIENTE'),
-      )
+          'Buen Provecho',
+          'images/buenasnoches.gif',
+          'images/bienvenido.gif',
+          'images/adios.gif',
+          'images/buenprovecho.gif',
+          'images/buenprovecho.gif',
+          checkButton: bottomButton(context, 'SIGUIENTE'),
+          2),
+      ListLesson(
+          'Traduce la siguiente seña',
+          const ['Gracias', 'Adios', 'Buen Provecho', 'Buenas Noches'],
+          'images/adios.gif',
+          'Adios',
+          checkButton: bottomButton(context, 'SIGUIENTE'))
     ];
 
     return Scaffold(
@@ -146,10 +161,12 @@ class Lesson7ScreenState extends State<Lesson7Screen> {
                 percent += 10;
                 index++;
               } else {
+                FirestoreDatasource.addlesson('Leccion 7', respuestas,
+                    'images/saludo.png', 'Los Saludos');
                 showDialog(
                   context: context,
                   builder: (BuildContext context) {
-                    return dialog('Resultado ${Lesson7Screen.answers} /10 ');
+                    return dialog('Resultado $respuestas /10 ');
                   },
                 );
               }
@@ -195,7 +212,6 @@ class Lesson7ScreenState extends State<Lesson7Screen> {
   }
 
   dialogTitle(String text) {
-    Lesson7Screen.answers = 0;
     return Align(
       alignment: Alignment.centerLeft,
       child: Container(
@@ -212,4 +228,4 @@ class Lesson7ScreenState extends State<Lesson7Screen> {
       ),
     );
   }
-}*/
+}

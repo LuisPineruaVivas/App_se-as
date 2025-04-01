@@ -132,7 +132,15 @@ class GridLessonState extends State<GridLesson> {
               children: [
                 Container(
                     padding: const EdgeInsets.all(5),
-                    child: Center(child: Image.asset(image, scale: 0.5))),
+                    child: Center(
+                      child: SizedBox(
+                        height: 200, // Adjust the height as needed
+                        child: Image.asset(
+                          image,
+                          fit: BoxFit.contain,
+                        ),
+                      ),
+                    )),
               ],
             ),
           )

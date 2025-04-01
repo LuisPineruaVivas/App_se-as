@@ -6,6 +6,7 @@ import 'package:first_app/screens/lesson/lesson3_screen.dart';
 import 'package:first_app/screens/lesson/lesson4_screen.dart';
 import 'package:first_app/screens/lesson/lesson5_screen.dart';
 import 'package:first_app/screens/lesson/lesson6_screen.dart';
+import 'package:first_app/screens/lesson/lesson7_screen.dart';
 import 'package:first_app/variables.dart';
 //import 'package:first_app/screens/lesson/lesson7_screen.dart';
 // import 'package:first_app/screens/lesson/lesson8_screen.dart';
@@ -122,7 +123,7 @@ class _LevelsScreenState extends State<LevelsScreen> {
                                         {'respuestas': 0})['respuestas']
                                 : 0,
                             'Lección 3',
-                            Colors.green,
+                            Colors.orange,
                             3),
                         const SizedBox(height: 15),
                         twoLessons(
@@ -149,7 +150,7 @@ class _LevelsScreenState extends State<LevelsScreen> {
                                       0 // Ensure null safety
                                   : 0,
                               'Lección 5',
-                              Colors.orange,
+                              Colors.greenAccent,
                               5),
                         ),
                         const SizedBox(height: 15),
@@ -163,8 +164,21 @@ class _LevelsScreenState extends State<LevelsScreen> {
                                     0
                                 : 0,
                             'Lección 6',
-                            Colors.orange,
-                            6)
+                            Colors.redAccent,
+                            6),
+                        const SizedBox(height: 15),
+                        lesson(
+                            'images/saludo.png',
+                            snapshot.data!.isNotEmpty
+                                ? snapshot.data!.firstWhere(
+                                      (doc) => doc['title'] == 'Leccion 7',
+                                      orElse: () => {'respuestas': 0},
+                                    )['respuestas'] ??
+                                    0
+                                : 0,
+                            'Lección 7',
+                            Colors.lightBlueAccent,
+                            7)
                       ],
                     );
                   }
@@ -235,10 +249,10 @@ class _LevelsScreenState extends State<LevelsScreen> {
           Navigator.push(context,
               MaterialPageRoute(builder: (context) => const Lesson6Screen()));
         }
-        //if (lesson == 7) {
-        //  Navigator.push(context,
-        //      MaterialPageRoute(builder: (context) => const Lesson7Screen()));
-        //}
+        if (lesson == 7) {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const Lesson7Screen()));
+        }
         // if (lesson == 8) {
         //   Navigator.push(context,
         //       MaterialPageRoute(builder: (context) => const Lesson8Screen()));
